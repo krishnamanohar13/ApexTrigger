@@ -4,20 +4,27 @@ public with sharing class AccountPhoneSyncService {
         if(accList == null || accList.isEmpty()){
             return ;
         }
-        for(Account acc : accList){
-            if(acc.Phone !=null){
-                accMap.put(acc.Id,acc.Phone);
-            }
-        }
-        if(!accMap.isEmpty()){
-            List<Contact> conList = [Select Id,Name,Phone,AccountId FROM Contact where AccountId IN:accMap.keySet()];
-            for(Contact con : conList){
-                if(accMap.containsKey(con.AccountId)){
-                    con.Phone = accMap.get(con.AccountId);
+        if(!accList.isEmpty()){
+            try {
+                for(Account acc : accList){
+                    if(acc.Phone !=null){
+                        accMap.put(acc.Id,acc.Phone);
+                    }
                 }
-            }
-            if(!conList.isEmpty()){
-                update conList;
+                if(!accMap.isEmpty()){
+                    List<Contact> conList = [Select Id,LastName,Phone,AccountId FROM Contact where AccountId IN:accMap.keySet()];
+                    for(Contact con : conList){
+                        if(accMap.containsKey(con.AccountId)){
+                            con.Phone = accMap.get(con.AccountId);
+                        }
+                    }
+                    if(!conList.isEmpty()){
+                        update conList;
+                    }
+                }
+            } 
+            catch (Exception e) {
+                System.debug('Exception --->'+ e.getMessage());
             }
         }
     }
