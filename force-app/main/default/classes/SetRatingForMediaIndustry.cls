@@ -1,12 +1,15 @@
 public with sharing class SetRatingForMediaIndustry {
+    public static  String industry = 'Media';
+    public static String rating = 'Hot';
     public static void updateRating(List<Account> accList){
         if(accList == null || accList.isEmpty()){
             return ;
         }
-        for(Account acc : accList){
-            if(acc.Industry == 'Media' && acc.Industry!=null){
-                System.debug('Incoming');
-                acc.Rating = 'Hot';
+        if(!accList.isEmpty()){
+            for(Account acc : accList){
+                if(acc.Industry == 'industry' && acc.Industry!=null){
+                    acc.Rating = 'rating';
+                }
             }
         }
     }
