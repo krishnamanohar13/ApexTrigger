@@ -12,4 +12,3 @@ public with sharing class AccountCreationIndustry {
         }
     }
 }
-//Example -- 6
